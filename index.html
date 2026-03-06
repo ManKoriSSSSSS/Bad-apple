@@ -3,46 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cookie Consent</title>
+    <title>Bad Apple!</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
-            background-color: black;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            font-family: "Courier New", Courier, monospace;
             overflow: hidden;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
 
         .modal-container {
-            max-width: 600px;
-            text-align: center;
-            padding: 2rem;
+            max-width: 700px;
+            padding: 3rem;
             z-index: 10;
+            border: 1px solid #333;
+            background: rgba(0,0,0,0.9);
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.05);
+            position: relative;
         }
 
-        .btn-accept {
-            background-color: white;
-            color: black;
-            transition: background-color 0.2s;
+        .modal-container::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #fff, #000, #fff);
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        .trigger-btn {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #fff;
+            background: transparent;
+            color: #fff;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            cursor: pointer;
         }
 
         .btn-accept:hover {
-            background-color: red;
-        }
-
-        .btn-decline {
-            border: 2px solid white;
-            color: black;
-            background-color: white;
-            transition: background-color 0.2s;
+            background-color: #fff;
+            color: #000;
+            box-shadow: 0 0 20px #fff;
         }
 
         .btn-decline:hover {
-            background-color: white;
+            background-color: #fff;
+            color: #000;
+            box-shadow: 0 0 20px #fff;
         }
 
         #videoPlayer {
@@ -53,40 +69,71 @@
             width: 100vw;
             height: 100vh;
             background: black;
-            object-fit: cover;
+            object-fit: contain;
             z-index: 9999;
+            filter: contrast(1.5) brightness(1.2);
         }
 
         .no-interaction {
             pointer-events: none;
             user-select: none;
         }
+
+        h1 {
+            text-shadow: 2px 2px 0px #333;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            1% { transform: translate(-2px, 2px); }
+            2% { transform: translate(2px, -2px); }
+            3% { transform: translate(0); }
+        }
+
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 11;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            pointer-events: none;
+            animation: scanline 6s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100px; }
+        }
     </style>
 </head>
 <body>
+    <div class="scanline"></div>
 
-    <div id="consentModal" class="modal-container">
-        <h1 class="text-3xl font-white mb-6 text-gray-900 leading-tight">Bad apple launcher</h1>
+    <div id="consentModal" class="modal-container text-center">
+        <h1 class="text-4xl font-bold mb-8 text-white">Bad apple launcher</h1>
         
-        <p class="text-white-500 text-lg leading-relaxed mb-4">
+        <p class="text-gray-300 text-sm mb-6">
             The following footage is a music video, click any button for video
         </p>
 
-        <p class="text-gray-400 text-lg leading-relaxed mb-10">
+        <p class="text-gray-500 text-xs mb-12 italic border-l-2 border-white pl-4 text-left">
             Bad Apple may be unsustaible for people that have <br>
-            <span class="font-bold text-white-500">high risk of photosensitive epileptic seizes.</span>
+            <span class="font-bold text-white">high risk of photosensitive epileptic seizes.</span>
         </p>
 
-        <div class="flex justify-center gap-4 mb-6">
-            <button id="acceptBtn" class="trigger-btn btn-accept px-10 py-3 rounded-md font-bold text-xl">
+        <div class="flex justify-center gap-6 mb-10">
+            <button id="acceptBtn" class="trigger-btn btn-accept px-12 py-4 font-bold text-lg">
                 Accept
             </button>
-            <button id="declineBtn" class="trigger-btn btn-decline px-10 py-3 rounded-md font-bold text-xl">
+            <button id="declineBtn" class="trigger-btn btn-decline px-12 py-4 font-bold text-lg">
                 Decline
             </button>
         </div>
 
-        <a href="#" class="text-[#9146ff] font-medium text-lg hover:underline">Privacy policy</a>
+        <a href="#" class="text-gray-600 text-xs hover:text-white transition-colors">Privacy policy</a>
     </div>
 
     <video id="videoPlayer" class="no-interaction" playsinline>
